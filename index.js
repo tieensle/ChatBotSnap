@@ -1,7 +1,6 @@
 const VERIFY_TOKEN = "tienle11072000";
 const PAGE_ACCESS_TOKEN =
   "EAAnZBo0Pduv0BAGp3yhVgaX2aFle306ATE9dTnRMz32VXdtpw3V2sXvRb7OdOJNRr69b7kIZC9YJuhTiYuXZCHy0WRJyROx6HbMuKlkTC640ZByPHCxGu2Bktlc93LbeLRCSs6w7gimIlvSZCyGVcunjOIIHB4WM7ZCqX7OLq1PgZDZD";
-const APP_SECRET = "e038f0c1c9d8ee795bb3b28ac86181c2";
 const express = require("express");
 const request = require("request");
 const app = express();
@@ -50,10 +49,10 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-function handleMessage(senderId, message) {
+async function handleMessage(senderId, message) {
   let response;
   if (message.text) {
-    const text = message.text;
+    const text = await message.text;
     callSendAPI(senderId, { text: `Có phải bạn vừa nói "${text}"` });
     callSendAPI(senderId, {
       text: `Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`,
