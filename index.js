@@ -20,15 +20,13 @@ app.post("/webhook", (req, res) => {
 
   if (body.object === "page") {
     body.entry.forEach((entry) => {
-      let messaging = entry.messaging;
-      messaging.forEach((message) => {
-        const senderId = message.sender.id;
-        if (message.message) {
-          handleMessage(senderId, message.message);
-        } else if (message.postback) {
-          handlePostback(senderId, message.postback);
-        }
-      });
+      let webhook_event = entry.messaging[0];
+      const senderId = webhook_event.sender.id;
+      if (webhook_event.message) {
+        handleMessage(senderId, webhook_event.message);
+      } else if (webhook_event.postback) {
+        handlePostback(senderId, webhook_event.postback);
+      }
     });
 
     res.status(200).send("EVENT_RECEIVED");
@@ -55,7 +53,7 @@ app.get("/webhook", (req, res) => {
 function handleMessage(senderId, message) {
   let response;
   if (message.text) {
-    const text = message.message.text;
+    const text = message.text;
     callSendAPI(senderId, `Có phải bạn vừa nói "${text}"`);
     callSendAPI(
       senderId,
@@ -92,6 +90,8 @@ function handleMessage(senderId, message) {
       },
     };
   }
+
+  callSendAPI(senderId, response);
 }
 
 function handlePostback(senderId, postback) {
