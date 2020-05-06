@@ -21,7 +21,7 @@ app.post("/webhook", (req, res) => {
   if (body.object === "page") {
     body.entry.forEach((entry) => {
       let webhook_event = entry.messaging[0];
-      const senderId = webhook_event.sender.id;
+      let senderId = webhook_event.sender.id;
       if (webhook_event.message) {
         handleMessage(senderId, webhook_event.message);
       } else if (webhook_event.postback) {
@@ -54,11 +54,10 @@ function handleMessage(senderId, message) {
   let response;
   if (message.text) {
     const text = message.text;
-    callSendAPI(senderId, `Có phải bạn vừa nói "${text}"`);
-    callSendAPI(
-      senderId,
-      `Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`
-    );
+    callSendAPI(senderId, { text: `Có phải bạn vừa nói "${text}"` });
+    callSendAPI(senderId, {
+      text: `Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`,
+    });
   } else if (message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = message.attachments[0].payload.url;
