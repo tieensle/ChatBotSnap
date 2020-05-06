@@ -53,7 +53,7 @@ async function handleMessage(senderId, message) {
   let response;
   if (message.text) {
     const text = await message.text;
-    callSendAPI(senderId, { text: `Có phải bạn vừa nói "${text}"` });
+    await callSendAPI(senderId, { text: `Có phải bạn vừa nói "${text}"` });
     callSendAPI(senderId, {
       text: `Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`,
     });
