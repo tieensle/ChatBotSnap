@@ -13,9 +13,22 @@ app.get("/", (req, res) => {
 app.post("/webhook", (req, res) => {
   if (req.body.object === "page") {
     req.body.entry.forEach((entry) => {
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      let messaging = entry.messaging;
+      messaging.forEach((message) => {
+        const senderId = message.sender.id;
+        if (message.message) {
+          if (message.message.text) {
+            const text = message.message.text;
+            sendMessage(
+              senderId,
+              `Đang trong giai đoạn thử nghiệm nên không biết nói gì :))
+               Có phải bạn vừa nói "${text}"`
+            );
+          }
+        }
+      });
     });
+
     res.status(200).send("EVENT_RECEIVED");
   } else {
     res.sendStatus(404);
