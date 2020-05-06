@@ -16,22 +16,17 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  console.log("test");
-  if (req.body.object === "page") {
-    req.body.entry.forEach((entry) => {
+  let body = req.body;
+
+  if (body.object === "page") {
+    body.entry.forEach((entry) => {
       let messaging = entry.messaging;
       messaging.forEach((message) => {
         const senderId = message.sender.id;
         if (message.message) {
-          if (message.message.text) {
-            const text = message.message.text;
-            console.log(text);
-            sendMessage(
-              senderId,
-              `Đang trong giai đoạn thử nghiệm nên không biết nói gì :)`
-            );
-            sendMessage(senderId, `Có phải bạn vừa nói "${text}"`);
-          }
+          handleMessage(senderId, message.message);
+        } else if (message.postback) {
+          handlePostback(senderId, message.postback);
         }
       });
     });
@@ -57,7 +52,60 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-function sendMessage(senderId, message) {
+function handleMessage(senderId, message) {
+  let response;
+  if (message.text) {
+    const text = message.message.text;
+    callSendAPI(senderId, `Có phải bạn vừa nói "${text}"`);
+    callSendAPI(
+      senderId,
+      `Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`
+    );
+  } else if (message.attachments) {
+    // Get the URL of the message attachment
+    let attachment_url = message.attachments[0].payload.url;
+    response = {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [
+            {
+              title: "Is this the right picture?",
+              subtitle: "Tap a button to answer.",
+              image_url: attachment_url,
+              buttons: [
+                {
+                  type: "postback",
+                  title: "Yes!",
+                  payload: "yes",
+                },
+                {
+                  type: "postback",
+                  title: "No!",
+                  payload: "no",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+  }
+}
+
+function handlePostback(senderId, postback) {
+  let response;
+  let payload = postback.payload;
+  if (payload === "yes") {
+    response = { text: "chuẩn vl!" };
+  } else if (payload === "no") {
+    response = { text: "bảo gửi ảnh cơ mà -_-" };
+  }
+  callSendAPI(senderId, response);
+}
+
+function callSendAPI(senderId, message) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
     qs: {
@@ -79,7 +127,7 @@ app.listen(PORT, () =>
   console.log(`Chat bot server listening at http://localhost:${PORT}`)
 );
 
-// "use strict";
+// ("use strict");
 // const PAGE_ACCESS_TOKEN =
 //   "EAAnZBo0Pduv0BAGp3yhVgaX2aFle306ATE9dTnRMz32VXdtpw3V2sXvRb7OdOJNRr69b7kIZC9YJuhTiYuXZCHy0WRJyROx6HbMuKlkTC640ZByPHCxGu2Bktlc93LbeLRCSs6w7gimIlvSZCyGVcunjOIIHB4WM7ZCqX7OLq1PgZDZD";
 // // Imports dependencies and set up http server
