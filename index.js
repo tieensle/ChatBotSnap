@@ -1,3 +1,7 @@
+const VERIFY_TOKEN = "tienle11072000";
+const PAGE_ACCESS_TOKEN =
+  "EAADdKA6ZAg64BAAJHZAlDgLKRWm991ItnLdsrQikGoCmbQLyecMoCg5LwbG2t84oVQRfMCFPf4bhWCUvFZAIC1KL3fzAH4HWYVeFOzA3eGUs2R6KW7eEz9lA1hyZA7awdHF1WyvzkKh5mG3cpRacKCH7p7PQFKjCceT3BtuXKgZDZD";
+const APP_SECRET = "e038f0c1c9d8ee795bb3b28ac86181c2";
 const express = require("express");
 const app = express();
 
@@ -42,7 +46,7 @@ app.get("/webhook", (req, res) => {
   let challenge = req.query["hub.challenge"];
 
   if (mode && token) {
-    if (mode === "subscribe" && token === process.env.VERIFY_TOKEN) {
+    if (mode === "subscribe" && token === VERIFY_TOKEN) {
       console.log("webhook is verified!");
       res.status(200).send(challenge);
     } else {
@@ -55,8 +59,7 @@ function sendMessage(senderId, message) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
     qs: {
-      access_token:
-        "EAADdKA6ZAg64BAAJHZAlDgLKRWm991ItnLdsrQikGoCmbQLyecMoCg5LwbG2t84oVQRfMCFPf4bhWCUvFZAIC1KL3fzAH4HWYVeFOzA3eGUs2R6KW7eEz9lA1hyZA7awdHF1WyvzkKh5mG3cpRacKCH7p7PQFKjCceT3BtuXKgZDZD",
+      access_token: PAGE_ACCESS_TOKEN,
     },
     method: "POST",
     json: {
