@@ -1,6 +1,6 @@
 const VERIFY_TOKEN = "tienle11072000";
 const PAGE_ACCESS_TOKEN =
-  "EAAnZBo0Pduv0BAHfPhBZCEJSrLBzVvBujNaoNtbSYqfxVCEDsTsFLlfvvqdpbknOImtzvKJWxqZBwRMbCxCAzTdmDCeoWB30rzyCw1TZBGj5a4pBkzZCSJ7n2JKkdOshDdqKdHgH6zR2K5ZCNgu4YmCmLUr3869VSMfMMBVChh9gZDZD";
+  "EAAnZBo0Pduv0BAIhe8DYkB6bHk47C1lu2swm0Sa8CM0ZCSrry598ZBI8rvCa3RlsTQTPoDdLhrByX1BHWmFqNh7607ZBDMZCxqrMxMMwBphfDBw8nBOGfrlotY0ruUgJKloZBkDmrLzDvUFDaqsJf5xmaMDhnW1ceMl6RYA7M2TAZDZD";
 const APP_SECRET = "e038f0c1c9d8ee795bb3b28ac86181c2";
 const express = require("express");
 const app = express();
