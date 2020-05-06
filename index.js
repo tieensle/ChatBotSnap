@@ -28,9 +28,9 @@ app.post("/webhook", (req, res) => {
             console.log(text);
             sendMessage(
               senderId,
-              `Đang trong giai đoạn thử nghiệm nên không biết nói gì :))
-               Có phải bạn vừa nói "${text}"`
+              `Đang trong giai đoạn thử nghiệm nên không biết nói gì :)`
             );
+            sendMessage(senderId, `Có phải bạn vừa nói "${text}"`);
           }
         }
       });
