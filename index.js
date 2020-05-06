@@ -64,8 +64,8 @@ function handleMessage(senderId, message) {
           template_type: "generic",
           elements: [
             {
-              title: "Is this the right picture?",
-              subtitle: "Tap a button to answer.",
+              title: "Đây có phải cái ảnh m gửi không?",
+              subtitle: "Đúng chưa?",
               image_url: attachment_url,
               buttons: [
                 {
