@@ -49,14 +49,13 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-async function handleMessage(senderId, message) {
+function handleMessage(senderId, message) {
   let response;
   if (message.text) {
-    const text = await message.text;
-    await callSendAPI(senderId, { text: `Có phải bạn vừa nói "${text}"` });
-    callSendAPI(senderId, {
-      text: `Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`,
-    });
+    const text = message.text;
+    response = {
+      text: `Có phải bạn vừa nói "${text}". Nhưng mà không biết trả lời đâu :v . Gửi tui cái tệp file ảnh đê!`,
+    };
   } else if (message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = message.attachments[0].payload.url;
