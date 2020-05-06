@@ -19,6 +19,7 @@ app.post("/webhook", (req, res) => {
         if (message.message) {
           if (message.message.text) {
             const text = message.message.text;
+            console.log(text);
             sendMessage(
               senderId,
               `Đang trong giai đoạn thử nghiệm nên không biết nói gì :))
