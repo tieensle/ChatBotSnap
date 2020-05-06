@@ -1,3 +1,7 @@
+const VERIFY_TOKEN = "tienle11072000";
+const PAGE_ACCESS_TOKEN =
+  "EAAnZBo0Pduv0BAGp3yhVgaX2aFle306ATE9dTnRMz32VXdtpw3V2sXvRb7OdOJNRr69b7kIZC9YJuhTiYuXZCHy0WRJyROx6HbMuKlkTC640ZByPHCxGu2Bktlc93LbeLRCSs6w7gimIlvSZCyGVcunjOIIHB4WM7ZCqX7OLq1PgZDZD";
+const APP_SECRET = "e038f0c1c9d8ee795bb3b28ac86181c2";
 const express = require("express");
 const request = require("request");
 const app = express();
@@ -33,11 +37,11 @@ app.post("/webhook", (req, res) => {
 
 app.get("/webhook", (req, res) => {
   let mode = req.query["hub.mode"];
-  let token = req.query["hub.process.env.VERIFY_TOKEN"];
+  let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
 
   if (mode && token) {
-    if (mode === "subscribe" && token === process.env.VERIFY_TOKEN) {
+    if (mode === "subscribe" && token === VERIFY_TOKEN) {
       console.log("webhook is verified!");
       res.status(200).send(challenge);
     } else {
@@ -104,7 +108,7 @@ function callSendAPI(senderId, message) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
     qs: {
-      access_token: process.env.PAGE_ACCESS_TOKEN,
+      access_token: PAGE_ACCESS_TOKEN,
     },
     method: "POST",
     json: {
